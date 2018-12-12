@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".ProviderActivity">
+    <AutoCompleteTextView
+        android:id="@+id/country_name"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/country_name" />
+    <EditText
+        android:id="@+id/provider_name"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/provider_name" />
+    <EditText
+        android:id="@+id/provider_code"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/provider_code" />
+    <Button
+        android:id="@+id/add_provider_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:layout_margin="15dp"
+        android:text="@string/add_provider"
+        android:onClick="addProvider" />
+    <Button
+        android:id="@+id/edit_provider_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:layout_margin="15dp"
+        android:text="@string/edit_provider"
+        android:onClick="editProvider" />
+</LinearLayout>

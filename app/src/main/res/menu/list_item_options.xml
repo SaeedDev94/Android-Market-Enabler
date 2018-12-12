@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/fake_provider"
+          android:title="@string/fake_provider_title" />
+    <group android:id="@+id/group_custom_list_options">
+        <item android:id="@+id/edit_provider"
+              android:title="@string/edit_provider_title" />
+        <item android:id="@+id/delete_provider"
+              android:title="@string/delete_provider_title" />
+    </group>
+</menu>

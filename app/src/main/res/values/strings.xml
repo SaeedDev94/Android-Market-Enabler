@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Android Market Enabler</string>
+    <string name="about_activity_title">About</string>
+    <string name="fake_provider_title">Fake to this provider</string>
+    <string name="edit_provider_title">Edit</string>
+    <string name="delete_provider_title">Delete</string>
+    <string name="title_activity_provider">ProviderActivity</string>
+    <string name="country_name">Country name</string>
+    <string name="provider_name">Provider name</string>
+    <string name="provider_code">Provider code</string>
+    <string name="add_provider">Add provider</string>
+    <string name="edit_provider">Edit provider</string>
+</resources>
