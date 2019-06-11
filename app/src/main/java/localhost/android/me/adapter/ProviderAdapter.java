@@ -1,4 +1,4 @@
-package list.adapter;
+package localhost.android.me.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import java.util.List;
-import helper.AssetHelper;
-import list.model.ProviderModel;
+import localhost.android.me.helper.AssetHelper;
+import localhost.android.me.model.ProviderModel;
 import localhost.android.me.R;
 
 public class ProviderAdapter extends BaseAdapter

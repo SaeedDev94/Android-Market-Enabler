@@ -1,4 +1,4 @@
-package room.entity;
+package localhost.android.me.database.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

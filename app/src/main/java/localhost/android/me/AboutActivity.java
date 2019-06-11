@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
-import helper.AssetHelper;
+import localhost.android.me.helper.AssetHelper;
 
 public class AboutActivity extends AppCompatActivity {
 

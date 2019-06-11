@@ -1,4 +1,4 @@
-package list.model;
+package localhost.android.me.model;
 
 public class ProviderModel
 {

@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import java.util.List;
-import room.entity.Country;
-import room.entity.Provider;
-import room.repo.CountryRepo;
-import room.repo.ProviderRepo;
+import localhost.android.me.database.entity.Country;
+import localhost.android.me.database.entity.Provider;
+import localhost.android.me.database.repo.CountryRepo;
+import localhost.android.me.database.repo.ProviderRepo;
 
 public class ProviderActivity extends AppCompatActivity
 {

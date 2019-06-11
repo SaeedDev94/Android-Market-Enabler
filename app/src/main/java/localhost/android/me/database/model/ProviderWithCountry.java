@@ -1,4 +1,4 @@
-package room.model;
+package localhost.android.me.database.model;
 
 import androidx.room.ColumnInfo;
 

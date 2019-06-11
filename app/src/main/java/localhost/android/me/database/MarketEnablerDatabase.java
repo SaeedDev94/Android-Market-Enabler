@@ -1,4 +1,4 @@
-package room.database;
+package localhost.android.me.database;
 
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Database;
@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import room.dao.CountryDao;
-import room.dao.ProviderDao;
-import room.entity.Country;
-import room.entity.Provider;
-import helper.AssetHelper;
+import localhost.android.me.database.dao.CountryDao;
+import localhost.android.me.database.dao.ProviderDao;
+import localhost.android.me.database.entity.Country;
+import localhost.android.me.database.entity.Provider;
+import localhost.android.me.helper.AssetHelper;
 
 @Database(
     entities = {

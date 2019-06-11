@@ -1,4 +1,4 @@
-package room.dao;
+package localhost.android.me.database.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -6,8 +6,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import java.util.List;
-import room.entity.Provider;
-import room.model.ProviderWithCountry;
+import localhost.android.me.database.entity.Provider;
+import localhost.android.me.database.model.ProviderWithCountry;
 
 @Dao
 public interface ProviderDao

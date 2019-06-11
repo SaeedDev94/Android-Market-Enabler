@@ -18,11 +18,11 @@ import android.widget.Toast;
 import com.jaredrummler.android.shell.Shell;
 import java.util.ArrayList;
 import java.util.List;
-import room.entity.Provider;
-import room.model.ProviderWithCountry;
-import room.repo.ProviderRepo;
-import list.adapter.ProviderAdapter;
-import list.model.ProviderModel;
+import localhost.android.me.database.entity.Provider;
+import localhost.android.me.database.model.ProviderWithCountry;
+import localhost.android.me.database.repo.ProviderRepo;
+import localhost.android.me.adapter.ProviderAdapter;
+import localhost.android.me.model.ProviderModel;
 
 public class MainActivity extends AppCompatActivity
 {

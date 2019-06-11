@@ -1,11 +1,11 @@
-package room.repo;
+package localhost.android.me.database.repo;
 
 import android.content.Context;
 import java.util.List;
-import room.dao.ProviderDao;
-import room.database.MarketEnablerDatabase;
-import room.entity.Provider;
-import room.model.ProviderWithCountry;
+import localhost.android.me.database.dao.ProviderDao;
+import localhost.android.me.database.MarketEnablerDatabase;
+import localhost.android.me.database.entity.Provider;
+import localhost.android.me.database.model.ProviderWithCountry;
 
 public class ProviderRepo
 {

@@ -1,4 +1,4 @@
-package helper;
+package localhost.android.me.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
