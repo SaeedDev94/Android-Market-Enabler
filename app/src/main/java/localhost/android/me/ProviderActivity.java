@@ -52,26 +52,18 @@ public class ProviderActivity extends AppCompatActivity
             providerNameEditText.setText(providerName);
             providerCodeEditText.setText(providerCode);
         }
-        try
+        CountryRepo repo = new CountryRepo(this);
+        List<Country> countriesList = repo.getCountries();
+        int countriesLen = countriesList.size();
+        String[] countries = new String[countriesLen];
+        for (int i = 0 ; i < countriesLen ; i++)
         {
-            CountryRepo repo = new CountryRepo(this);
-            List<Country> countriesList = repo.getCountries();
-            int countriesLen = countriesList.size();
-            String[] countries = new String[countriesLen];
-            for (int i = 0 ; i < countriesLen ; i++)
-            {
-                countries[i] = countriesList.get(i).getName();
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, countries);
-            AutoCompleteTextView countryNameEditText = findViewById(R.id.country_name);
-            countryNameEditText.setThreshold(1);
-            countryNameEditText.setAdapter(adapter);
+            countries[i] = countriesList.get(i).getName();
         }
-        catch (InterruptedException error)
-        {
-            error.printStackTrace();
-            Toast.makeText(this, "Somethings went wrong!!2", Toast.LENGTH_SHORT).show();
-        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, countries);
+        AutoCompleteTextView countryNameEditText = findViewById(R.id.country_name);
+        countryNameEditText.setThreshold(1);
+        countryNameEditText.setAdapter(adapter);
     }
 
     public void addProvider(View view)
@@ -81,18 +73,8 @@ public class ProviderActivity extends AppCompatActivity
         {
             return;
         }
-        try
-        {
-            ProviderRepo providerRepo = new ProviderRepo(this);
-            providerRepo.insertProvider(provider);
-        }
-        catch (InterruptedException error)
-        {
-            error.printStackTrace();
-            progressDialog.dismiss();
-            Toast.makeText(this, "Somethings went wrong!!4", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        ProviderRepo providerRepo = new ProviderRepo(this);
+        providerRepo.insertProvider(provider);
         Intent main = new Intent(this, MainActivity.class);
         main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(main);
@@ -106,18 +88,8 @@ public class ProviderActivity extends AppCompatActivity
             return;
         }
         this.provider.setId(this.providerId);
-        try
-        {
-            ProviderRepo providerRepo = new ProviderRepo(this);
-            providerRepo.updateProvider(this.provider);
-        }
-        catch (InterruptedException error)
-        {
-            error.printStackTrace();
-            progressDialog.dismiss();
-            Toast.makeText(this, "Somethings went wrong!!5", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        ProviderRepo providerRepo = new ProviderRepo(this);
+        providerRepo.updateProvider(this.provider);
         Intent main = new Intent(this, MainActivity.class);
         main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(main);
@@ -152,22 +124,12 @@ public class ProviderActivity extends AppCompatActivity
         countryName = countryName.trim();
         countryName = countryName.substring(0, 1).toUpperCase() + countryName.substring(1);
         List<Country> countryList;
-        try
+        CountryRepo repo = new CountryRepo(this);
+        countryList = repo.getCountryByName(countryName);
+        if (countryList.size() == 0)
         {
-            CountryRepo repo = new CountryRepo(this);
-            countryList = repo.getCountryByName(countryName);
-            if (countryList.size() == 0)
-            {
-                progressDialog.dismiss();
-                Toast.makeText(this, "Country name invalid", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        }
-        catch (InterruptedException error)
-        {
-            error.printStackTrace();
             progressDialog.dismiss();
-            Toast.makeText(this, "Somethings went wrong!!3", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Country name invalid", Toast.LENGTH_SHORT).show();
             return true;
         }
         Country country = countryList.get(0);

@@ -39,23 +39,15 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-        try
+        ProviderRepo providerRepo = new ProviderRepo(this);
+        List<ProviderWithCountry> customProviders = providerRepo.getProviders();
+        for (ProviderWithCountry provider : customProviders)
         {
-            ProviderRepo providerRepo = new ProviderRepo(this);
-            List<ProviderWithCountry> customProviders = providerRepo.getProviders();
-            for (ProviderWithCountry provider : customProviders)
-            {
-                ProviderModel providerModel = new ProviderModel(provider.getProviderCode(), provider.getCountryIso(), provider.getProviderName(), "true");
-                providerModel.setId(provider.getProviderId());
-                providerModel.setCountryId(provider.getCountryId());
-                providerModel.setCountryName(provider.getCountryName());
-                providers.add(providerModel);
-            }
-        }
-        catch (InterruptedException error)
-        {
-            error.printStackTrace();
-            Toast.makeText(this, "Somethings went wrong!!1", Toast.LENGTH_SHORT).show();
+            ProviderModel providerModel = new ProviderModel(provider.getProviderCode(), provider.getCountryIso(), provider.getProviderName(), "true");
+            providerModel.setId(provider.getProviderId());
+            providerModel.setCountryId(provider.getCountryId());
+            providerModel.setCountryName(provider.getCountryName());
+            providers.add(providerModel);
         }
         String[][] mainProviders = new String[][]
         {
@@ -189,21 +181,13 @@ public class MainActivity extends AppCompatActivity
             }
             if (item.getItemId() == R.id.delete_provider)
             {
-                try
-                {
-                    Provider provider = new Provider(this.provider.getCountryId(), this.provider.getCode(), this.provider.getName());
-                    provider.setId(this.provider.getId());
-                    ProviderRepo providerRepo = new ProviderRepo(this.context);
-                    providerRepo.deleteProvider(provider);
-                    int providerIndex = providers.indexOf(this.provider);
-                    providers.remove(providerIndex);
-                    providersList.invalidateViews();
-                }
-                catch (InterruptedException error)
-                {
-                    error.printStackTrace();
-                    Toast.makeText(this.context, "Somethings went wrong!!6", Toast.LENGTH_SHORT).show();
-                }
+                Provider provider = new Provider(this.provider.getCountryId(), this.provider.getCode(), this.provider.getName());
+                provider.setId(this.provider.getId());
+                ProviderRepo providerRepo = new ProviderRepo(this.context);
+                providerRepo.deleteProvider(provider);
+                int providerIndex = providers.indexOf(this.provider);
+                providers.remove(providerIndex);
+                providersList.invalidateViews();
                 return true;
             }
             return false;
