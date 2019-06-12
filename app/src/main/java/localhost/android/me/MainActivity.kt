@@ -25,7 +25,7 @@ import localhost.android.me.database.repo.ProviderRepo
 import localhost.android.me.helper.ProgressDialog
 import localhost.android.me.model.ProviderModel
 
-import kotlinx.android.synthetic.main.main_layout.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity()
 {
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_layout)
+        setContentView(R.layout.activity_main)
         progressDialog = ProgressDialog.create(this)
         progressDialog.show()
         providersList = providers_list

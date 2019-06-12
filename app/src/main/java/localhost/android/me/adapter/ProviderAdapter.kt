@@ -38,7 +38,7 @@ class ProviderAdapter(
     override fun getView(index: Int, container: View?, parent: ViewGroup): View
     {
         val view = LayoutInflater.from(this.context)
-        .inflate(R.layout.providers_listview, parent, false)
+        .inflate(R.layout.layout_provider_listview, parent, false)
         val provider = getItem(index)
         val providerTextView: TextView = view.findViewById(R.id.provider_title)
         providerTextView.text = provider.getFullTitle()
