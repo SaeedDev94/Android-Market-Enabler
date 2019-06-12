@@ -1,6 +1,8 @@
 package localhost.android.me.database.repo
 
 import android.content.Context
+import android.os.AsyncTask
+import localhost.android.me.database.Callback
 import localhost.android.me.database.dao.CountryDao
 import localhost.android.me.database.MarketEnablerDatabase
 import localhost.android.me.database.entity.Country
@@ -14,56 +16,46 @@ class CountryRepo(private var context: Context)
         this.countryDao = db.countryDao()
     }
 
-    fun getCountries(): List<Country>
+    fun getCountries(resultCallback: Callback.OnCountryResultListener)
     {
-        val getAll = GetAll(this.countryDao)
-        val thread = Thread(getAll)
-        thread.start()
-        thread.join()
-        return getAll.list()
+        GetAllTask(this.countryDao, resultCallback).execute()
     }
 
-    fun getCountryByName(name: String): List<Country>
+    fun getCountryByName(name: String, resultCallback: Callback.OnCountryResultListener)
     {
-        val getByName = GetByName(this.countryDao, name)
-        val thread = Thread(getByName)
-        thread.start()
-        thread.join()
-        return getByName.country()
+        GetByNameTask(this.countryDao, name, resultCallback).execute()
     }
 
-    class GetAll(private var countryDao: CountryDao) : Runnable
+    class GetAllTask(
+            private var countryDao: CountryDao,
+            private var resultCallback: Callback.OnCountryResultListener
+    ) : AsyncTask<Void?, Void?, List<Country>>()
     {
-        @Volatile
-        private lateinit var countries: List<Country>
-
-        override fun run()
+        override fun doInBackground(vararg p0: Void?): List<Country>
         {
-            this.countries = this.countryDao.getAll()
+            return this.countryDao.getAll()
         }
 
-        fun list(): List<Country>
+        override fun onPostExecute(countries: List<Country>)
         {
-            return this.countries
+            this.resultCallback.onResult(countries)
         }
     }
 
-    class GetByName(
+    class GetByNameTask(
         private var countryDao: CountryDao,
-        private var name: String
-    ) : Runnable
+        private var name: String,
+        private var resultCallback: Callback.OnCountryResultListener
+    ) : AsyncTask<Void?, Void?, List<Country>>()
     {
-        @Volatile
-        private lateinit var country: List<Country>
-
-        override fun run()
+        override fun doInBackground(vararg p0: Void?): List<Country>
         {
-            this.country = this.countryDao.getByName(this.name)
+            return this.countryDao.getByName(name)
         }
 
-        fun country(): List<Country>
+        override fun onPostExecute(countries: List<Country>)
         {
-            return this.country
+            this.resultCallback.onResult(countries)
         }
     }
 }

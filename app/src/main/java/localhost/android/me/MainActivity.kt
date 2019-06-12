@@ -1,7 +1,9 @@
 package localhost.android.me
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
@@ -20,6 +22,10 @@ import localhost.android.me.adapter.ProviderAdapter
 import localhost.android.me.model.ProviderModel
 
 import kotlinx.android.synthetic.main.main_layout.*
+import localhost.android.me.database.Callback
+import localhost.android.me.database.model.ProviderWithCountry
+import localhost.android.me.helper.ProgressDialog
+import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity()
 {
@@ -42,59 +48,24 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-    private var providers: ArrayList<ProviderModel> = arrayListOf()
+    private var models: ArrayList<ProviderModel> = arrayListOf()
     private lateinit var providersList: ListView
+    private lateinit var progressDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_layout)
-        val providerRepo = ProviderRepo(this)
-        val customProviders = providerRepo.getProviders()
-        for (i in 0 until customProviders.size)
-        {
-            val provider = customProviders[i]
-            val providerModel = ProviderModel(provider.getProviderCode(), provider.getCountryIso(), provider.getProviderName(), "true")
-            providerModel.setId(provider.getProviderId())
-            providerModel.setCountryId(provider.getCountryId())
-            providerModel.setCountryName(provider.getCountryName())
-            providers.add(providerModel)
-        }
-        val mainProviders = arrayOf(
-            arrayOf("310260", "US", "T-Mobile"),
-            arrayOf("302690", "CA", "Bell Mobility"),
-            arrayOf("302720", "CA", "Rogers Wireless"),
-            arrayOf("23407", "GB", "Vodafone"),
-            arrayOf("23420", "GB", "Three"),
-            arrayOf("20416", "NL", "T-Mobile"),
-            arrayOf("23203", "AU", "T-Mobile"),
-            arrayOf("26207", "DE", "O2"),
-            arrayOf("26203", "DE", "E-Plus"),
-            arrayOf("22802", "CH", "Sunrise"),
-            arrayOf("22201", "IT", "TIM"),
-            arrayOf("40405", "IN", "Vodafone"),
-            arrayOf("40402", "IN", "AirTel"),
-            arrayOf("45502", "CN", "China Telecom"),
-            arrayOf("27203", "IE", "Meteor"),
-            arrayOf("25001", "RU", "MTS"),
-            arrayOf("25002", "RU", "MegaFon"),
-            arrayOf("25099", "RU", "Beeline"),
-            arrayOf("25020", "RU", "Tele2")
-        )
-        mainProviders.forEach {
-            providers.add(ProviderModel(it[0], it[1], it[2], "false"))
-        }
+        progressDialog = ProgressDialog.create(this)
+        progressDialog.show()
         providersList = providers_list
-        providersList.adapter = ProviderAdapter(this, providers)
-        providersList.setOnItemClickListener { _, view, index, _ ->
-            listItemOptions(providers[index], view)
-        }
         fab.setColorFilter(Color.WHITE)
         fab.setOnClickListener {
             val providerActivity = Intent(applicationContext, ProviderActivity::class.java)
             providerActivity.putExtra("mode", "add")
             startActivity(providerActivity)
         }
+        ProvidersList(this).execute()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean
@@ -150,7 +121,7 @@ class MainActivity : AppCompatActivity()
             {
                 val providerActivity = Intent(this.activity, ProviderActivity::class.java)
                 providerActivity.putExtra("mode", "edit")
-                providerActivity.putExtra("providerId", this.provider.getId().toString())
+                providerActivity.putExtra("providerId", this.provider.getId())
                 providerActivity.putExtra("countryName", this.provider.getCountryName())
                 providerActivity.putExtra("providerName", this.provider.getName())
                 providerActivity.putExtra("providerCode", this.provider.getCode())
@@ -163,12 +134,73 @@ class MainActivity : AppCompatActivity()
                 provider.setId(this.provider.getId())
                 val providerRepo = ProviderRepo(this.activity.applicationContext)
                 providerRepo.deleteProvider(provider)
-                val providerIndex = this.activity.providers.indexOf(this.provider)
-                this.activity.providers.removeAt(providerIndex)
+                val providerIndex = this.activity.models.indexOf(this.provider)
+                this.activity.models.removeAt(providerIndex)
                 this.activity.providersList.invalidateViews()
                 return true
             }
             return false
+        }
+    }
+
+    class ProvidersList(mainActivity: MainActivity) : AsyncTask<Void?, Void?, Void?>()
+    {
+        private var wActivity: WeakReference<MainActivity> = WeakReference(mainActivity)
+
+        override fun doInBackground(vararg p0: Void?): Void?
+        {
+            val activity = this.wActivity.get()!!
+            val mainProviders = arrayOf(
+                arrayOf("310260", "US", "T-Mobile"),
+                arrayOf("302690", "CA", "Bell Mobility"),
+                arrayOf("302720", "CA", "Rogers Wireless"),
+                arrayOf("23407", "GB", "Vodafone"),
+                arrayOf("23420", "GB", "Three"),
+                arrayOf("20416", "NL", "T-Mobile"),
+                arrayOf("23203", "AU", "T-Mobile"),
+                arrayOf("26207", "DE", "O2"),
+                arrayOf("26203", "DE", "E-Plus"),
+                arrayOf("22802", "CH", "Sunrise"),
+                arrayOf("22201", "IT", "TIM"),
+                arrayOf("40405", "IN", "Vodafone"),
+                arrayOf("40402", "IN", "AirTel"),
+                arrayOf("45502", "CN", "China Telecom"),
+                arrayOf("27203", "IE", "Meteor"),
+                arrayOf("25001", "RU", "MTS"),
+                arrayOf("25002", "RU", "MegaFon"),
+                arrayOf("25099", "RU", "Beeline"),
+                arrayOf("25020", "RU", "Tele2")
+            )
+            val providerRepo = ProviderRepo(activity.applicationContext)
+            providerRepo.getProviders(object: Callback.OnProviderResultListener {
+                override fun onResult(providers: List<ProviderWithCountry>) {
+                    var customProvider = true
+                    for (i in 0 until providers.size)
+                    {
+                        val provider = providers[i]
+                        val providerModel = ProviderModel(
+                            provider.getProviderCode(),
+                            provider.getCountryIso(),
+                            provider.getProviderName(),
+                            customProvider
+                        )
+                        providerModel.setId(provider.getProviderId())
+                        providerModel.setCountryId(provider.getCountryId())
+                        providerModel.setCountryName(provider.getCountryName())
+                        activity.models.add(providerModel)
+                    }
+                    customProvider = false
+                    mainProviders.forEach {
+                        activity.models.add(ProviderModel(it[0], it[1], it[2], customProvider))
+                    }
+                    activity.providersList.adapter = ProviderAdapter(activity, activity.models)
+                    activity.providersList.setOnItemClickListener { _, view, index, _ ->
+                        activity.listItemOptions(activity.models[index], view)
+                    }
+                    activity.progressDialog.dismiss()
+                }
+            })
+            return null
         }
     }
 }

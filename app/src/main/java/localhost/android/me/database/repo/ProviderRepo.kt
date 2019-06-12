@@ -1,6 +1,8 @@
 package localhost.android.me.database.repo
 
 import android.content.Context
+import android.os.AsyncTask
+import localhost.android.me.database.Callback
 import localhost.android.me.database.dao.ProviderDao
 import localhost.android.me.database.MarketEnablerDatabase
 import localhost.android.me.database.entity.Provider
@@ -15,85 +17,87 @@ class ProviderRepo(private var context: Context)
         this.providerDao = db.providerDao()
     }
 
-    fun getProviders(): List<ProviderWithCountry>
+    fun getProviders(resultCallback: Callback.OnProviderResultListener)
     {
-        val getAll = GetAll(this.providerDao)
-        val thread = Thread(getAll)
-        thread.start()
-        thread.join()
-        return getAll.list()
+        GetAllTask(this.providerDao, resultCallback).execute()
     }
 
-    fun insertProvider(provider: Provider)
+    fun insertProvider(provider: Provider, doneCallback: Callback.OnDoneListener)
     {
-        val insert = Insert(this.providerDao, provider)
-        val thread = Thread(insert)
-        thread.start()
-        thread.join()
+        InsertTask(this.providerDao, provider, doneCallback).execute()
     }
 
-    fun updateProvider(provider: Provider)
+    fun updateProvider(provider: Provider, doneCallback: Callback.OnDoneListener)
     {
-        val update = Update(this.providerDao, provider)
-        val thread = Thread(update)
-        thread.start()
-        thread.join()
+        UpdateTask(this.providerDao, provider, doneCallback).execute()
     }
 
     fun deleteProvider(provider: Provider)
     {
-        val delete = Delete(this.providerDao, provider)
-        val thread = Thread(delete)
-        thread.start()
-        thread.join()
+        DeleteTask(this.providerDao, provider).execute()
     }
 
-    class GetAll(private var providerDao: ProviderDao) : Runnable
-    {
-        @Volatile
-        private lateinit var providers: List<ProviderWithCountry>
-
-        override fun run()
-        {
-            this.providers = this.providerDao.getAll()
-        }
-
-        fun list(): List<ProviderWithCountry>
-        {
-            return this.providers
-        }
-    }
-
-    class Insert(
+    class GetAllTask(
         private var providerDao: ProviderDao,
-        private var provider: Provider
-    ) : Runnable
+        private var resultCallback: Callback.OnProviderResultListener
+    ) : AsyncTask<Void?, Void, List<ProviderWithCountry>>()
     {
-        override fun run()
+        override fun doInBackground(vararg p0: Void?): List<ProviderWithCountry>
+        {
+            return this.providerDao.getAll()
+        }
+
+        override fun onPostExecute(providers: List<ProviderWithCountry>)
+        {
+            this.resultCallback.onResult(providers)
+        }
+    }
+
+    class InsertTask(
+        private var providerDao: ProviderDao,
+        private var provider: Provider,
+        private var doneCallback: Callback.OnDoneListener
+    ) : AsyncTask<Void?, Void?, Void?>()
+    {
+        override fun doInBackground(vararg p0: Void?): Void?
         {
             this.providerDao.insert(this.provider)
+            return null
+        }
+
+        override fun onPostExecute(result: Void?)
+        {
+            this.doneCallback.onSuccess()
         }
     }
 
-    class Update(
+    class UpdateTask(
         private var providerDao: ProviderDao,
-        private var provider: Provider
-    ) : Runnable
+        private var provider: Provider,
+        private var doneCallback: Callback.OnDoneListener
+    ) : AsyncTask<Void?, Void?, Void?>()
     {
-        override fun run()
+        override fun doInBackground(vararg p0: Void?): Void?
         {
             this.providerDao.update(this.provider)
+            return null
+        }
+
+        override fun onPostExecute(result: Void?)
+        {
+            this.doneCallback.onSuccess()
         }
     }
 
-    class Delete(
+    class DeleteTask(
         private var providerDao: ProviderDao,
         private var provider: Provider
-    ) : Runnable
+    ) : AsyncTask<Void?, Void?, Void?>()
     {
-        override fun run()
+        override fun doInBackground(vararg p0: Void?): Void?
         {
             this.providerDao.delete(this.provider)
+            return null
         }
     }
 }

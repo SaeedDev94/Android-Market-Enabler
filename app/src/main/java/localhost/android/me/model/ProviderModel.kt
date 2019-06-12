@@ -4,13 +4,12 @@ class ProviderModel(
     private var code: String,
     private var countryIso: String,
     private var name: String,
-    custom: String
+    private var custom: Boolean
 )
 {
     private var id: Long = 0
     private var countryId: Long = 0
     private var countryName: String = ""
-    private var custom: Boolean = custom.toBoolean()
 
     fun getId(): Long
     {

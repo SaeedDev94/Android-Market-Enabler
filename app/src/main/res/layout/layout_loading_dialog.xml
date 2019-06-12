@@ -4,21 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp">
+    android:padding="15dp"
+    android:layoutDirection="ltr">
     <ProgressBar
-        android:id="@+id/view_progressBar"
         style="?android:attr/progressBarStyle"
+        android:id="@+id/view_progressBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        tools:ignore="RtlHardcoded" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        android:layout_toStartOf="@+id/view_progressBar"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/view_progressBar"
         android:layout_centerVertical="true"
         android:text="@string/loading"
         android:textSize="@dimen/loading_text"
         android:textColor="@android:color/white"
-        tools:ignore="RelativeOverlap" />
+        tools:ignore="RelativeOverlap,RtlHardcoded" />
 </RelativeLayout>
