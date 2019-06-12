@@ -61,9 +61,10 @@ class ProviderActivity : AppCompatActivity()
         repo.getCountries(object: Callback.OnCountryResultListener {
             override fun onResult(countries: List<Country>) {
                 val data = countries.map {it.getName()}.toTypedArray()
-                val adapter = ArrayAdapter<String>(applicationContext, android.R.layout.select_dialog_item, data)
+                val adapter = ArrayAdapter<String>(applicationContext, R.layout.layout_country_arrayadapter, data)
                 country_name.threshold = 1
                 country_name.setAdapter(adapter)
+                country_name.setDropDownBackgroundResource(android.R.color.black)
                 progressDialog.dismiss()
             }
         })
