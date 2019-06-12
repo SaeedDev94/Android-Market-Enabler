@@ -15,17 +15,17 @@ import android.widget.ListView
 import android.widget.PopupMenu
 import android.widget.Toast
 import com.jaredrummler.android.shell.Shell
+import java.lang.ref.WeakReference
 import java.util.ArrayList
-import localhost.android.me.database.entity.Provider
-import localhost.android.me.database.repo.ProviderRepo
 import localhost.android.me.adapter.ProviderAdapter
+import localhost.android.me.database.Callback
+import localhost.android.me.database.entity.Provider
+import localhost.android.me.database.model.ProviderWithCountry
+import localhost.android.me.database.repo.ProviderRepo
+import localhost.android.me.helper.ProgressDialog
 import localhost.android.me.model.ProviderModel
 
 import kotlinx.android.synthetic.main.main_layout.*
-import localhost.android.me.database.Callback
-import localhost.android.me.database.model.ProviderWithCountry
-import localhost.android.me.helper.ProgressDialog
-import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity()
 {

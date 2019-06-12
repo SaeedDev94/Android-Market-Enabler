@@ -9,14 +9,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import localhost.android.me.database.Callback
+import localhost.android.me.database.entity.Country
 import localhost.android.me.database.entity.Provider
 import localhost.android.me.database.repo.CountryRepo
 import localhost.android.me.database.repo.ProviderRepo
 import localhost.android.me.helper.ProgressDialog
 
 import kotlinx.android.synthetic.main.provider_layout.*
-import localhost.android.me.database.Callback
-import localhost.android.me.database.entity.Country
 
 class ProviderActivity : AppCompatActivity()
 {
