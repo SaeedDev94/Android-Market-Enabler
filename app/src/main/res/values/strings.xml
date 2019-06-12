@@ -10,4 +10,5 @@
     <string name="provider_code">Provider code</string>
     <string name="add_provider">Add provider</string>
     <string name="edit_provider">Edit provider</string>
+    <string name="loading">Loading…</string>
 </resources>

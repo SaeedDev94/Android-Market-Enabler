@@ -17,27 +17,27 @@
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/provider_name" />
+        android:hint="@string/provider_name"
+        tools:ignore="Autofill" />
     <EditText
         android:id="@+id/provider_code"
         android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/provider_code" />
+        android:hint="@string/provider_code"
+        tools:ignore="Autofill" />
     <Button
         android:id="@+id/add_provider_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:layout_margin="15dp"
-        android:text="@string/add_provider"
-        android:onClick="addProvider" />
+        android:text="@string/add_provider" />
     <Button
         android:id="@+id/edit_provider_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:layout_margin="15dp"
-        android:text="@string/edit_provider"
-        android:onClick="editProvider" />
+        android:text="@string/edit_provider" />
 </LinearLayout>
