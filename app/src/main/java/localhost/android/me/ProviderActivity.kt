@@ -1,10 +1,12 @@
 package localhost.android.me
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import localhost.android.me.database.entity.Provider
@@ -99,6 +101,8 @@ class ProviderActivity : AppCompatActivity()
 
     private fun formValidation(doneCallback: Callback.OnDoneListener)
     {
+        val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
         val countryNameEditText = country_name
         val providerNameEditText = provider_name
         val providerCodeEditText = provider_code
@@ -142,7 +146,6 @@ class ProviderActivity : AppCompatActivity()
         val providerRepo = ProviderRepo(this)
         providerRepo.insertProvider(this.provider, object: Callback.OnDoneListener {
             override fun onSuccess() {
-                progressDialog.dismiss()
                 finishThisActivity()
             }
         })
@@ -154,7 +157,6 @@ class ProviderActivity : AppCompatActivity()
         val providerRepo = ProviderRepo(this)
         providerRepo.updateProvider(this.provider, object: Callback.OnDoneListener {
             override fun onSuccess() {
-                progressDialog.dismiss()
                 finishThisActivity()
             }
         })
