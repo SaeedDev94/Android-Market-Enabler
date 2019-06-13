@@ -1,6 +1,5 @@
 package localhost.android.me
 
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.AsyncTask
@@ -22,7 +21,6 @@ import localhost.android.me.database.Callback
 import localhost.android.me.database.entity.Provider
 import localhost.android.me.database.model.ProviderWithCountry
 import localhost.android.me.database.repo.ProviderRepo
-import localhost.android.me.helper.ProgressDialog
 import localhost.android.me.model.ProviderModel
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -50,14 +48,11 @@ class MainActivity : AppCompatActivity()
 
     private var models: ArrayList<ProviderModel> = arrayListOf()
     private lateinit var providersList: ListView
-    private lateinit var progressDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        progressDialog = ProgressDialog.create(this)
-        progressDialog.show()
         providersList = providers_list
         fab.setColorFilter(Color.WHITE)
         fab.setOnClickListener {
@@ -197,7 +192,6 @@ class MainActivity : AppCompatActivity()
                     activity.providersList.setOnItemClickListener { _, view, index, _ ->
                         activity.listItemOptions(activity.models[index], view)
                     }
-                    activity.progressDialog.dismiss()
                 }
             })
             return null

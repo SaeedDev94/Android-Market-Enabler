@@ -29,7 +29,6 @@ class ProviderActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_provider)
         progressDialog = ProgressDialog.create(this)
-        progressDialog.show()
         val intentExtra = intent.extras!!
         val mode = intentExtra.getString("mode")
         if (mode == "add")
@@ -65,7 +64,6 @@ class ProviderActivity : AppCompatActivity()
                 country_name.threshold = 1
                 country_name.setAdapter(adapter)
                 country_name.setDropDownBackgroundResource(android.R.color.black)
-                progressDialog.dismiss()
             }
         })
     }
