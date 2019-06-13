@@ -17,7 +17,8 @@ import localhost.android.me.database.entity.Provider
         Country::class,
         Provider::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class MarketEnablerDatabase : RoomDatabase()
 {

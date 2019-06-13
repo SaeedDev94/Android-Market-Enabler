@@ -1,10 +1,7 @@
 package localhost.android.me.database.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "providers",
@@ -15,6 +12,12 @@ import androidx.room.PrimaryKey
             childColumns = ["country_id"],
             onUpdate = CASCADE,
             onDelete = CASCADE
+        )
+    ],
+    indices = [
+        Index(
+            name = "providers_country_id_foreign",
+            value = ["country_id"]
         )
     ]
 )
