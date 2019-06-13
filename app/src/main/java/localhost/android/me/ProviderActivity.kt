@@ -68,6 +68,12 @@ class ProviderActivity : AppCompatActivity()
         })
     }
 
+    override fun onDestroy()
+    {
+        if (progressDialog.isShowing) progressDialog.dismiss()
+        super.onDestroy()
+    }
+
     private fun addProvider()
     {
         progressDialog.show()
